@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: security-microservice
+    jwt:
+      secret-key: mySuperSecretKeyWithAtLeast32Characters1234567890
+      expiration: 300000
+  datasource:
+    url: jdbc:postgresql://localhost:5431/security_db
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: notificaciones.automaticas.jl@gmail.com
+    password: tdfo htol gvvb gthd
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+#Open api configs
+springdoc:
+  swagger-ui:
+    enabled: true
+  packages-to-scan: com.example.securitymicroservice.controllers
+  api-docs:
+    enabled: true
