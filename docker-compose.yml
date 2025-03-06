@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  security_db:
+    image: security_db_image
+    container_name: security_db_container
+    #construir con dockerfile:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432
+#    persistir volumes
+#    volumes:
+#      - ./data:/var/lib/postgresql/data
+  security_app:
+    image: security_app_image
+    container_name: security_app_container
+    #construir con dockerfile:
+    build:
+      context: ./
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://security_db:5432/security_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    ports:
+      - 8080:8080
+networks:
+  security_network:
