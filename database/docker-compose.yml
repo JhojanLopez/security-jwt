@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  security_db:
+    image: security_db_image
+    container_name: security_db_container
+    #construir con dockerfile:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432
+#    persistir volumes
+#    volumes:
+#      - ./data:/var/lib/postgresql/data
