@@ -10,7 +10,8 @@ public interface UserService {
     ResponseEntity<String> preSignUp(PreSignUpDTO preSignUpDTO);
     UserDTO registerUser(SignUpDTO SignUpDTO);
     void activateUser(String token, String password);
-    UserDTO recoverPassword(String email);
+    void recoverPassword(String token, String password);
     User findUserByEmail(String email);
+    UserDTO findUserDTOByEmail(String email);
     SignUpDTO findUserByToken(String token);
 }

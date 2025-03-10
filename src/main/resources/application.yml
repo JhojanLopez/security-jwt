@@ -4,8 +4,14 @@ spring:
     jwt:
       secret-key: mySuperSecretKeyWithAtLeast32Characters1234567890
       expiration: 300000
+    apis:
+      users:
+        base-path: /api/v1/users
+        endpoints:
+          registration: /registration
+          recovery-password: /recovery/password
   datasource:
-    url: jdbc:postgresql://localhost:5431/security_db
+    url: jdbc:postgresql://localhost:5432/security_db
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver

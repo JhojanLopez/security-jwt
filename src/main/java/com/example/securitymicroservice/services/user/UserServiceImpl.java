@@ -2,6 +2,7 @@ package com.example.securitymicroservice.services.user;
 
 import com.example.securitymicroservice.database.entities.User;
 import com.example.securitymicroservice.database.repositories.UserRepository;
+import com.example.securitymicroservice.exceptions.UserNotFoundByEmail;
 import com.example.securitymicroservice.models.PreSignUpDTO;
 import com.example.securitymicroservice.models.SignUpDTO;
 import com.example.securitymicroservice.models.UserDTO;
@@ -77,19 +78,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO recoverPassword(String email) {
-        User user = this.findUserByEmail(email);
+    public void recoverPassword(String token, String password) {
+        User user = userRepository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Token inválido"));
+        user.setPassword(passwordEncoder.encode(password));
         user.setToken(UUID.randomUUID().toString());
-        User userUpdated = userRepository.save(user);
-        UserDTO userDTO = mapper.map(userUpdated, UserDTO.class);
-        emailService.sendRecoveryEmail(userDTO);
-        return userDTO;
+
+        userRepository.save(user);
     }
 
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new UserNotFoundByEmail("Usuario no encontrado"));
+    }
+
+    @Override
+    public UserDTO findUserDTOByEmail(String email) {
+        User user = this.findUserByEmail(email);
+        return mapper.map(user, UserDTO.class);
     }
 
     @Override

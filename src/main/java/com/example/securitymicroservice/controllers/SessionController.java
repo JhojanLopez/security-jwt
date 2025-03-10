@@ -7,16 +7,16 @@ import com.example.securitymicroservice.models.SignInDTO;
 import com.example.securitymicroservice.services.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Log4j2
 @RestController
-@RequestMapping("/api/v1/session")
+@RequestMapping("/api/v1/rest/session")
 @RequiredArgsConstructor
 public class SessionController {
     private final UserService userService;
@@ -38,7 +38,7 @@ public class SessionController {
         try {
             return ResponseEntity.ok(authService.authenticUser(signInDTO));
         }catch (BadCredentialsException e) {
-            return ResponseEntity.badRequest().body("Credenciales erroneas.");
+            return ResponseEntity.status(HttpStatusCode.valueOf(404)).body("Credenciales erroneas o Usuario inexistente. ");
         }
         catch (UserNotActiveException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());

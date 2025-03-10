@@ -1,4 +1,4 @@
-# Proyecto de Microservicio de Autenticación
+# Proyecto de Microservicio de Seguridad
 
 Este proyecto es un **microservicio** desarrollado con **Spring Boot 3** que gestiona la autenticación y seguridad de usuarios utilizando **JWT (JSON Web Token)**. Contempla funcionalidades como **pre-registro, registro, inicio de sesión y recuperación de contraseña**, además del envío de correos electrónicos.
 
