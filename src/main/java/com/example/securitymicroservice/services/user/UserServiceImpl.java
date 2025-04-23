@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
                     "Te enviaremos de nuevo el enlace a tu correo para continuar el registro.");
         } else if (userFound != null) {
             return ResponseEntity.ok("El correo electrónico ya está registrado." +
-                    " Por favor inicia sesion.");
+                    " Por favor inicia sesión.");
         }
 
         User user = mapper.map(preSignUpDTO, User.class);

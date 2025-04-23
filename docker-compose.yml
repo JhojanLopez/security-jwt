@@ -22,6 +22,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://security_db:5432/security_db
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_APPLICATION_CLIENT_ACTIVE: true #indicates if the client is active and what is the host
     ports:
       - 8080:8080
 networks:

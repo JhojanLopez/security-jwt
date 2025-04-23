@@ -24,7 +24,36 @@ Este proyecto es un **microservicio** desarrollado con **Spring Boot 3** que ges
 
 1. **Clonar el repositorio**
 
-2 **Ejecutar con Docker Compose**
+2. **Establecer variables de entorno**
+
+A continuación se muestra un ejemplo de configuración usando Docker Compose: (revisar todas las variables en src/main/resources/application.yml)
+
+```yaml
+environment:
+  SPRING_APPLICATION_HOST: http://localhost:8080
+  SPRING_DATASOURCE_URL: jdbc:postgresql://security_db:5432/security_db
+  SPRING_DATASOURCE_USERNAME: admin
+  SPRING_DATASOURCE_PASSWORD: admin
+  SPRING_APPLICATION_CLIENT_ACTIVE: true
+  SPRING_APPLICATION_CLIENT_ENDPOINTS_REGISTRATION: /registration
+  SPRING_APPLICATION_CLIENT_ENDPOINTS_RECOVERY_PASSWORD: /recovery-password
+ports:
+  - "8080:8080"
+```
+
+Por favor, consulte la siguiente tabla para más detalles de cada variable:
+
+| Variable                                              | Valor por defecto                                   | Descripción                                             |
+|-------------------------------------------------------|-----------------------------------------------------|---------------------------------------------------------|
+| `SPRING_APPLICATION_HOST`                             | `http://localhost:8080`                             | URL base de la aplicación Spring.                       |
+| `SPRING_DATASOURCE_URL`                               | `jdbc:postgresql://security_db:5432/security_db`    | Cadena de conexión JDBC para la base de datos de seguridad. |
+| `SPRING_DATASOURCE_USERNAME`                          | `admin`                                             | Usuario para acceder a la base de datos.                |
+| `SPRING_DATASOURCE_PASSWORD`                          | `admin`                                             | Contraseña para acceder a la base de datos.             |
+| `SPRING_APPLICATION_CLIENT_ACTIVE`                    | `true`                                              | Indica si la funcionalidad de cliente está activa.      |
+| `SPRING_APPLICATION_CLIENT_ENDPOINTS_REGISTRATION`    | `/registration`                                     | Ruta para el endpoint de registro de usuarios.          |
+| `SPRING_APPLICATION_CLIENT_ENDPOINTS_RECOVERY_PASSWORD`| `/recovery-password`                                | Ruta para el endpoint de recuperación de contraseña de usuarios. |
+
+3. **Ejecutar con Docker Compose**
    ```bash
    docker compose up -d
    ```
