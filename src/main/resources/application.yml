@@ -43,3 +43,19 @@ springdoc:
   packages-to-scan: com.example.securitymicroservice.controllers
   api-docs:
     enabled: true
+
+#CORS configuration
+cors:
+  allowed-origins:
+    - "http://localhost:4200"
+  allowed-methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "DELETE"
+    - "OPTIONS"
+  allowed-headers:
+    - "*"
+  allow-credentials: true
+  exposed-headers:
+    - "Authorization"

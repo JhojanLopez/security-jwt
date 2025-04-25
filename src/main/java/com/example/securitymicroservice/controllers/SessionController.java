@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +24,9 @@ public class SessionController {
     private final AuthService authService;
 
     @PostMapping("/pre-sign-up")
-    public ResponseEntity<?> preSignUp(PreSignUpDTO preSignUpDTO) {
+    public ResponseEntity<?> preSignUp(@RequestBody PreSignUpDTO preSignUpDTO) {
         try {
+            log.info(preSignUpDTO);
             return userService.preSignUp(preSignUpDTO);
         } catch (Exception e) {
             log.error("Error: {}", e.getMessage());
@@ -34,7 +36,7 @@ public class SessionController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<?> signIn(SignInDTO signInDTO) {
+    public ResponseEntity<?> signIn(@RequestBody SignInDTO signInDTO) {
         try {
             return ResponseEntity.ok(authService.authenticUser(signInDTO));
         }catch (BadCredentialsException e) {
