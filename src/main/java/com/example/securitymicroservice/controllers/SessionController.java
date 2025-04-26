@@ -26,14 +26,14 @@ public class SessionController {
     @PostMapping("/pre-sign-up")
     public ResponseEntity<?> preSignUp(@RequestBody PreSignUpDTO preSignUpDTO) {
         try {
-            log.info(preSignUpDTO);
-            return userService.preSignUp(preSignUpDTO);
+            return ResponseEntity.ok(userService.preSignUp(preSignUpDTO));
         } catch (Exception e) {
-            log.error("Error: {}", e.getMessage());
-            return ResponseEntity.internalServerError().body("Hubo un error interno, por favor intenta despues.");
+            return buildServerErrorResponse(e);
         }
 
     }
+
+
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> signIn(@RequestBody SignInDTO signInDTO) {
@@ -46,10 +46,14 @@ public class SessionController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
         catch (Exception exc) {
-            log.error("Error: {}", exc.getMessage());
-            return ResponseEntity.internalServerError().body("Hubo un error interno, por favor intenta despues.");
+            return buildServerErrorResponse(exc);
         }
 
+    }
+
+    private ResponseEntity<String> buildServerErrorResponse(Exception e) {
+        log.error("Error: {}", e.getMessage());
+        return ResponseEntity.internalServerError().body("Hubo un error interno, por favor intenta despues.");
     }
 
 }

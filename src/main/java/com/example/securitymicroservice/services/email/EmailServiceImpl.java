@@ -23,8 +23,8 @@ public class EmailServiceImpl implements EmailService {
     private boolean clientActive;
     @Value("${spring.application.client.host}")
     private String clientHost;
-    @Value("${spring.application.client.endpoints.registration}")
-    private String clientRegistrationEndpoint;
+    @Value("${spring.application.client.endpoints.activate-account}")
+    private String clientActivateAccount;
     @Value("${spring.application.client.endpoints.recovery-password}")
     private String clientRecoveryPasswordEndpoint;
     @Value("${spring.mail.username}")
@@ -33,7 +33,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendActivationEmail(String name, String email, String token) {
-        String activationUrl = clientActive ? clientHost + clientRegistrationEndpoint + "?token=" + token
+        String activationUrl = clientActive ? clientHost + clientActivateAccount + "?token=" + token
                 : host + usersBasePath + registrationEndpoint + "?token=" + token;
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);

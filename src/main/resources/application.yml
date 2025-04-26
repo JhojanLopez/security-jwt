@@ -13,9 +13,9 @@ spring:
           recovery-password: /recovery/password
     client: #indicates if the client is active and what is the host
       active: true
-      host: http://localhost:4000
+      host: http://localhost:4200
       endpoints:
-        registration: /registration
+        activate-account: /activate-account
         recovery-password: /recovery-password
   datasource:
     url: jdbc:postgresql://localhost:5432/security_db

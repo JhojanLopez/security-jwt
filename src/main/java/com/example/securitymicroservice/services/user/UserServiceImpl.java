@@ -4,6 +4,7 @@ import com.example.securitymicroservice.database.entities.User;
 import com.example.securitymicroservice.database.repositories.UserRepository;
 import com.example.securitymicroservice.exceptions.UserNotFoundByEmail;
 import com.example.securitymicroservice.models.PreSignUpDTO;
+import com.example.securitymicroservice.models.PreSignUpResponseDTO;
 import com.example.securitymicroservice.models.SignUpDTO;
 import com.example.securitymicroservice.models.UserDTO;
 import com.example.securitymicroservice.services.email.EmailService;
@@ -26,16 +27,21 @@ public class UserServiceImpl implements UserService {
     private final EmailService emailService;
 
     @Override
-    public ResponseEntity<String> preSignUp(PreSignUpDTO preSignUpDTO) {
+    public PreSignUpResponseDTO preSignUp(PreSignUpDTO preSignUpDTO) {
         Optional<User> userConsulted = userRepository.findByEmail(preSignUpDTO.getEmail());
         User userFound = userConsulted.orElse(null);
+
         if (userFound != null && !userFound.isActive()) {
             emailService.sendActivationEmail(userFound.getName(), userFound.getEmail(), userFound.getToken());
-            return ResponseEntity.ok("El correo electrónico ya está registrado. " +
-                    "Te enviaremos de nuevo el enlace a tu correo para continuar el registro.");
+            return PreSignUpResponseDTO.builder()
+                    .message("El correo electrónico ya está registrado. " +
+                            "Te enviaremos de nuevo el enlace a tu correo para continuar el registro.")
+                    .build();
         } else if (userFound != null) {
-            return ResponseEntity.ok("El correo electrónico ya está registrado." +
-                    " Por favor inicia sesión.");
+            return PreSignUpResponseDTO.builder()
+                    .message("El correo electrónico ya está registrado." +
+                            " Por favor inicia sesión.")
+                    .build();
         }
 
         User user = mapper.map(preSignUpDTO, User.class);
@@ -45,7 +51,10 @@ public class UserServiceImpl implements UserService {
 
         User userSaved = userRepository.save(user);
         emailService.sendActivationEmail(userSaved.getName(), userSaved.getEmail(), userSaved.getToken());
-        return ResponseEntity.ok("Pre registo con exito! a tu correo te llegara un link para finalizar el registro.");
+
+        return PreSignUpResponseDTO.builder()
+                .message("Pre registo con exito! a tu correo te llegara un link para finalizar el registro.")
+                .build();
     }
 
     @Override
